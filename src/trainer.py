@@ -58,7 +58,7 @@ class SupTrainer:
         sim_tensor = torch.tensor([], device=self.device)
         label_array = np.array([])
         with torch.no_grad():
-            for source, target, label in dataloader:
+            for source, target, label in tqdm(dataloader):
                 source_input_ids = source.get('input_ids').squeeze(1).to(self.device)
                 source_attention_mask = source.get('attention_mask').squeeze(1).to(self.device)
                 source_token_type_ids = source.get('token_type_ids').squeeze(1).to(self.device)
@@ -72,8 +72,9 @@ class SupTrainer:
                 sim = F.cosine_similarity(source_pred, target_pred, dim=-1)
                 sim_tensor = torch.cat((sim_tensor, sim), dim=0)
                 label_array = np.append(label_array, np.array(label))
-
-        return spearmanr(label_array, sim_tensor.cpu().numpy()).correlation
+        corr = spearmanr(label_array, sim_tensor.cpu().numpy()).correlation
+        logger.info(f'corr: {corr}')
+        return corr
 
     def train(self, num_epochs, train_dataloader, dev_dataloader):
         for epoch in range(num_epochs):
