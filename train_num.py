@@ -47,7 +47,7 @@ train_dataloader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 valid_dataloader = DataLoader(valid_dataset, batch_size=64, shuffle=False)
 
 optimizer = AdamW(model.parameters(), lr=1e-5)
-num_epochs = 10
+num_epochs = 20
 best_valid_acc = 0.0  # 记录最佳验证准确率
 
 for epoch in range(num_epochs):
