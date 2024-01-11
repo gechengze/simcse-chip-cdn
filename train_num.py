@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import torch
+from tqdm import tqdm
 from torch.utils.data import DataLoader, TensorDataset
 from transformers import BertTokenizer, RobertaForSequenceClassification, AdamW
 from sklearn.model_selection import train_test_split
@@ -51,7 +52,7 @@ best_valid_acc = 0.0  # 记录最佳验证准确率
 
 for epoch in range(num_epochs):
     model.train()
-    for batch in train_dataloader:
+    for batch in tqdm(train_dataloader):
         input_ids, attention_mask, labels = batch
         input_ids, attention_mask, labels = input_ids.to(device), attention_mask.to(device), labels.to(device)
         optimizer.zero_grad()
@@ -65,7 +66,7 @@ for epoch in range(num_epochs):
     valid_preds = []
     valid_labels_list = []
 
-    for batch in valid_dataloader:
+    for batch in tqdm(valid_dataloader):
         input_ids, attention_mask, labels = batch
         input_ids, attention_mask, labels = input_ids.to(device), attention_mask.to(device), labels.to(device)
 
