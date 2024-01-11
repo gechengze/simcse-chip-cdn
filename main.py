@@ -8,7 +8,7 @@ from src.dataset import load_data
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--device', type=str, default='cpu')
-    parser.add_argument('--num_epochs', type=int, default=10)
+    parser.add_argument('--num_epoch', type=int, default=10)
     parser.add_argument('--batch_size', type=int, default=64)
     parser.add_argument('--max_len', type=int, default=64)
     parser.add_argument('--model_path', type=str, default='bert-base-chinese')
