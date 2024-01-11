@@ -84,5 +84,6 @@ for epoch in range(num_epochs):
 
     # 如果验证准确率提高，则保存模型
     if valid_acc > best_valid_acc:
+        print('save model')
         best_valid_acc = valid_acc
-        model.save_pretrained('num_saved.pt')
+        torch.save(model.state_dict(), f'num_saved_{best_valid_acc: .4f}.pt')
