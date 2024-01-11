@@ -50,7 +50,7 @@ class SupTrainer:
         corrcoef = self.eval(dev_dataloader)
         if corrcoef > self.best:
             self.best = corrcoef
-            torch.save(self.model.state_dict(), f'{self.model_save_path}_{self.best:.4f}')
+            torch.save(self.model.state_dict(), f'{self.model_save_path}_{self.best:.4f}.pt')
             logger.info(f"higher corrcoef: {self.best:.4f}, save model")
 
     def eval(self, dataloader):
