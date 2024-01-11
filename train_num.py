@@ -2,7 +2,7 @@
 import json
 import torch
 from torch.utils.data import DataLoader, TensorDataset
-from transformers import RobertaTokenizer, RobertaForSequenceClassification, AdamW
+from transformers import BertTokenizer, RobertaForSequenceClassification, AdamW
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
@@ -29,7 +29,7 @@ train_texts, valid_texts, train_labels, valid_labels = train_test_split(texts, l
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 model_path = 'roberta-chinese'
-tokenizer = RobertaTokenizer.from_pretrained(model_path)
+tokenizer = BertTokenizer.from_pretrained(model_path)
 model = RobertaForSequenceClassification.from_pretrained(model_path, num_labels=3)
 model.to(device)
 
