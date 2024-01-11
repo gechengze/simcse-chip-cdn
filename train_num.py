@@ -17,10 +17,10 @@ for item in data:
     num_result = len(normalized_result.split('##'))
     if num_result == 1:
         label = 0
-    elif num_result == 2:
-        label = 1
+    # elif num_result == 2:
+    #     label = 1
     else:
-        label = 2
+        label = 1
 
     labels.append(label)
 
@@ -31,7 +31,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 model_path = 'bert-base-chinese'
 tokenizer = BertTokenizer.from_pretrained(model_path)
-model = BertForSequenceClassification.from_pretrained(model_path, num_labels=3)
+model = BertForSequenceClassification.from_pretrained(model_path, num_labels=2)
 model.to(device)
 
 tokenized_train_texts = tokenizer(train_texts, padding=True, truncation=True, return_tensors="pt")
