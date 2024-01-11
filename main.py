@@ -22,4 +22,4 @@ if __name__ == '__main__':
     trainer = SupTrainer(args.device, args.model_path, args.save_path, args.lr, args.dropout)
 
     train_dataloader, dev_dataloader = load_data('data/', tokenizer, batch_size=args.batch_size, max_len=args.max_len, toy=args.toy)
-    trainer.train(args.num_epochs, train_dataloader, dev_dataloader)
+    trainer.train(args.num_epoch, train_dataloader, dev_dataloader)
