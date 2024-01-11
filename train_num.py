@@ -46,7 +46,7 @@ valid_dataset = TensorDataset(tokenized_valid_texts['input_ids'], tokenized_vali
 train_dataloader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 valid_dataloader = DataLoader(valid_dataset, batch_size=64, shuffle=False)
 
-optimizer = AdamW(model.parameters(), lr=5e-5)
+optimizer = AdamW(model.parameters(), lr=1e-5)
 num_epochs = 10
 best_valid_acc = 0.0  # 记录最佳验证准确率
 
