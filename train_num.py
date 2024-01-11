@@ -3,7 +3,7 @@ import json
 import torch
 from tqdm import tqdm
 from torch.utils.data import DataLoader, TensorDataset
-from transformers import BertTokenizer, RobertaForSequenceClassification, AdamW
+from transformers import BertTokenizer, BertForSequenceClassification, AdamW
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
@@ -29,9 +29,9 @@ train_texts, valid_texts, train_labels, valid_labels = train_test_split(texts, l
 # 设定设备（CPU或GPU）
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model_path = 'roberta-chinese'
+model_path = 'bert-base-chinese'
 tokenizer = BertTokenizer.from_pretrained(model_path)
-model = RobertaForSequenceClassification.from_pretrained(model_path, num_labels=3)
+model = BertForSequenceClassification.from_pretrained(model_path, num_labels=3)
 model.to(device)
 
 tokenized_train_texts = tokenizer(train_texts, padding=True, truncation=True, return_tensors="pt")
@@ -43,8 +43,8 @@ valid_labels = torch.tensor(valid_labels)
 train_dataset = TensorDataset(tokenized_train_texts['input_ids'], tokenized_train_texts['attention_mask'], train_labels)
 valid_dataset = TensorDataset(tokenized_valid_texts['input_ids'], tokenized_valid_texts['attention_mask'], valid_labels)
 
-train_dataloader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-valid_dataloader = DataLoader(valid_dataset, batch_size=32, shuffle=False)
+train_dataloader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+valid_dataloader = DataLoader(valid_dataset, batch_size=64, shuffle=False)
 
 optimizer = AdamW(model.parameters(), lr=5e-5)
 num_epochs = 3
