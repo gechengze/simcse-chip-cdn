@@ -28,7 +28,7 @@ train_texts, valid_texts, train_labels, valid_labels = train_test_split(texts, l
 # 设定设备（CPU或GPU）
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model_path = 'roberta-chinese'
+model_path = '../roberta-chinese'
 tokenizer = RobertaTokenizer.from_pretrained(model_path)
 model = RobertaForSequenceClassification.from_pretrained(model_path, num_labels=3)
 model.to(device)
