@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import pdb
+
 import torch
 import argparse
 import torch.nn.functional as F
@@ -19,6 +21,7 @@ def predict(tokenizer, model, text_a, text_b, device):
     target_attention_mask = token_b.get('attention_mask').squeeze(1).to(device)
     target_token_type_ids = token_b.get('token_type_ids').squeeze(1).to(device)
     target_pred = model(target_input_ids, target_attention_mask, target_token_type_ids)
+    pdb.set_trace()
     # concat
     sim = F.cosine_similarity(source_pred, target_pred, dim=-1).item()
     return sim
