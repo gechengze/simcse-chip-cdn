@@ -43,7 +43,7 @@ for _, row in tqdm(df_test.iterrows(), total=len(df_test)):
     query = row['原始词']
     q_embedding = get_embedding(query)
     label = row['标准词']
-    candidate = model.top_k_sentence(query, k=k)
+    candidate = bm25.top_k_sentence(query, k=k)
     if label not in candidate:
         candidate = candidate[:-1] + [label]
     best_sim = 0
