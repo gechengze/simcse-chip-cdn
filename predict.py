@@ -18,14 +18,15 @@ model.eval()
 
 df = pd.read_csv('data/chip_cdn_test.csv', sep='\t')
 embedding_dict = {}
-for text in tqdm(list(df['原始词'].values)):
-    token = tokenizer([text], max_length=64, truncation=True, padding='max_length', return_tensors='pt')
-    input_ids = token.get('input_ids').squeeze(1).to(device)
-    attention_mask = token.get('attention_mask').squeeze(1).to(device)
-    token_type_ids = token.get('token_type_ids').squeeze(1).to(device)
-    embedding = model(input_ids, attention_mask, token_type_ids)
-    embedding_dict[text] = embedding.cpu()
-    torch.cuda.empty_cache()
+with torch.no_grad:
+    for text in tqdm(list(df['原始词'].values)):
+        token = tokenizer([text], max_length=64, truncation=True, padding='max_length', return_tensors='pt')
+        input_ids = token.get('input_ids').squeeze(1).to(device)
+        attention_mask = token.get('attention_mask').squeeze(1).to(device)
+        token_type_ids = token.get('token_type_ids').squeeze(1).to(device)
+        embedding = model(input_ids, attention_mask, token_type_ids)
+        embedding_dict[text] = embedding.cpu()
+        del input_ids, attention_mask, token_type_ids, embedding
 
 with open(f'embedding.pickle', 'wb') as f:
     pickle.dump(embedding_dict, f)
