@@ -47,11 +47,11 @@ def predict():
     _, hidden_size = embeddings.shape
     index = faiss.IndexFlatIP(hidden_size)
     index.add(embeddings)
-
     texts = list(embedding_dict.keys())
 
-    df = pd.read_csv('data/chip_cdn_test.csv', sep='\t')
+    pdb.set_trace()
 
+    df = pd.read_csv('data/chip_cdn_test.csv', sep='\t')
     model_path = 'roberta-chinese'
     ckpt = 'sup_saved_0.8659.pt'
     device = torch.device('cuda:0')
@@ -72,7 +72,6 @@ def predict():
             sims = sims.flatten().tolist()
             most_sim_idx = most_sim_idx.flatten().tolist()
             most_sim_keys = [texts[i] for i in most_sim_idx]
-            pdb.set_trace()
 
 
 predict()
