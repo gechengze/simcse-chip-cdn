@@ -12,7 +12,7 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, default=64)
     parser.add_argument('--max_len', type=int, default=64)
     parser.add_argument('--model_path', type=str, default='bert-base-chinese')
-    parser.add_argument('--save_path', type=str, default='sup_saved')
+    parser.add_argument('--save_path', type=str, default='sup_saved.pt')
     parser.add_argument('--lr', type=float, default=1e-5)
     parser.add_argument('--dropout', type=float, default=0.3)
     parser.add_argument('--toy', type=bool, default=False)

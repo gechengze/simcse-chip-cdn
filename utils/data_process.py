@@ -19,15 +19,15 @@ train = []
 df_train = pd.read_csv('../data/chip_cdn_train.csv', sep='\t')
 for _, row in df_train.iterrows():
     text = clean(row['原始词'])
-    norm_lists = row['标准词'].split('##')
-    for norm_list in norm_lists:
-        origin = text
-        entailment = norm_list
+    if len(row['标准词'].split('##')) > 1:
+        continue
+    origin = text
+    entailment = row['标准词']
+    contradiction = df_icd['name'].sample(1).values[0]
+    while contradiction == origin or contradiction == entailment:
         contradiction = df_icd['name'].sample(1).values[0]
-        while contradiction == origin or contradiction == entailment:
-            contradiction = df_icd['name'].sample(1).values[0]
-        data = {'origin': origin, 'entailment': entailment, 'contradiction': contradiction}
-        train.append(data)
+    data = {'origin': origin, 'entailment': entailment, 'contradiction': contradiction}
+    train.append(data)
 
 with jsonlines.open('../data/train.txt', 'w') as writer:
     writer.write_all(train)
@@ -36,15 +36,16 @@ dev = []
 df_dev = pd.read_csv('../data/chip_cdn_dev.csv', sep='\t')
 for _, row in df_train.iterrows():
     text = clean(row['原始词'])
-    norm_lists = row['标准词'].split('##')
-    for norm_list in norm_lists:
-        origin = text
-        entailment = norm_list
+    if len(row['标准词'].split('##')) > 1:
+        continue
+
+    origin = text
+    entailment = row['标准词']
+    contradiction = df_icd['name'].sample(1).values[0]
+    while contradiction == origin or contradiction == entailment:
         contradiction = df_icd['name'].sample(1).values[0]
-        while contradiction == origin or contradiction == entailment:
-            contradiction = df_icd['name'].sample(1).values[0]
-        data = {'origin': origin, 'entailment': entailment, 'contradiction': contradiction}
-        dev.append(data)
+    data = {'origin': origin, 'entailment': entailment, 'contradiction': contradiction}
+    dev.append(data)
 new_dev = []
 for data in dev:
     data1 = data["origin"] + "||" + data["entailment"] + "||" + "1"
