@@ -59,6 +59,8 @@ def predict():
     model.load_state_dict(torch.load(ckpt))
     tokenizer = BertTokenizer.from_pretrained(model_path)
     model.eval()
+    preds = []
+    sims = []
     with torch.no_grad():
         for text in tqdm(list(df['原始词'].values)):
             token = tokenizer([text], max_length=64, truncation=True, padding='max_length', return_tensors='pt')
@@ -66,14 +68,17 @@ def predict():
             attention_mask = token.get('attention_mask').squeeze(1).to(device)
             token_type_ids = token.get('token_type_ids').squeeze(1).to(device)
             query = model(input_ids, attention_mask, token_type_ids)
-            pdb.set_trace()
             query = query.cpu().numpy().astype(np.float32)
             faiss.normalize_L2(query)
-            sims, most_sim_idx = index.search(query, 1)  # 选最相似的一个结果
-            sims = sims.flatten().tolist()
-            most_sim_idx = most_sim_idx.flatten().tolist()
-            most_sim_keys = [texts[i] for i in most_sim_idx]
+            sim, most_sim_idx = index.search(query, 1)  # 选最相似的一个结果
+            sim = sim.flatten().tolist()[0]
+            most_sim_idx = most_sim_idx.flatten().tolist()[0]
+            preds.append(texts[most_sim_idx])
+            sims.append(sim)
 
+    df['预测结果'] = preds
+    df['相似度'] = sims
+    df.to_excel('预测结果.xlsx', index=False)
 
 # get_embedding()
 predict()
