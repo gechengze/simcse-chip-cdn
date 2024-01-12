@@ -73,3 +73,6 @@ def predict():
             most_sim_idx = most_sim_idx.flatten().tolist()
             most_sim_keys = [texts[i] for i in most_sim_idx]
             pdb.set_trace()
+
+
+predict()
