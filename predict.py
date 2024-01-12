@@ -37,7 +37,7 @@ bm25 = fastbm25(corpus)
 
 df_test = pd.read_csv('../data/chip_cdn_test.csv', sep='\t')
 origins, labels, preds = [], [], []
-for _, row in df_test.iterrows():
+for _, row in tqdm(df_test.iterrows(), total=len(df_test)):
     if len(row['标准词'].split('##')) > 1:
         continue
     query = row['原始词']
