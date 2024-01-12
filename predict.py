@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import pdb
-
+from loguru import logger
 import pandas as pd
 import torch
 import pickle
@@ -84,6 +84,7 @@ def predict():
             sims.append(sim)
 
     df_result = pd.DataFrame({'原始词': origins, '标准词': labels, '预测结果': preds, '相似度': sims})
+    df_result['是否正确'] = df_result['标准词'] == df_result['预测结果']
     df_result.to_excel('预测结果.xlsx', index=False)
 
 
