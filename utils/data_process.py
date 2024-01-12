@@ -34,7 +34,7 @@ with jsonlines.open('../data/train.txt', 'w') as writer:
 
 dev = []
 df_dev = pd.read_csv('../data/chip_cdn_dev.csv', sep='\t')
-for _, row in df_train.iterrows():
+for _, row in df_dev.iterrows():
     text = clean(row['原始词'])
     if len(row['标准词'].split('##')) > 1:
         continue
