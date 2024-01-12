@@ -32,7 +32,8 @@ def get_embedding():
             attention_mask = token.get('attention_mask').squeeze(1).to(device)
             token_type_ids = token.get('token_type_ids').squeeze(1).to(device)
             embedding = model(input_ids, attention_mask, token_type_ids)
-            embedding_dict[text] = embedding.cpu()
+            embedding = embedding[0, ].cpu().numpy().astype(np.float32)
+            embedding_dict[text] = embedding
             del input_ids, attention_mask, token_type_ids, embedding
 
     with open(f'embedding.pickle', 'wb') as f:
@@ -74,4 +75,4 @@ def predict():
             most_sim_keys = [texts[i] for i in most_sim_idx]
 
 
-predict()
+get_embedding()
