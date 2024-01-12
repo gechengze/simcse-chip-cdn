@@ -66,12 +66,12 @@ def predict():
             attention_mask = token.get('attention_mask').squeeze(1).to(device)
             token_type_ids = token.get('token_type_ids').squeeze(1).to(device)
             query = model(input_ids, attention_mask, token_type_ids)
+            query = query[0, ].cpu().numpy().astype(np.float32)
             faiss.normalize_L2(query)
             sims, most_sim_idx = index.search(query, 1)  # 选最相似的一个结果
             sims = sims.flatten().tolist()
             most_sim_idx = most_sim_idx.flatten().tolist()
             most_sim_keys = [texts[i] for i in most_sim_idx]
-            pdb.set_trace()
 
 
 # get_embedding()
