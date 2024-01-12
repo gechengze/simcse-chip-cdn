@@ -29,7 +29,7 @@ def get_embedding(text):
     return embedding
 
 
-k = 5
+k = 10
 df = pd.read_csv('data/code.txt', header=None, names=['code', 'name'], sep='\t')
 corpus = list(df['name'].values)
 bm25 = fastbm25(corpus)
