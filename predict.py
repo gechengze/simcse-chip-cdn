@@ -31,11 +31,11 @@ def get_embedding(text):
 
 
 k = 5
-df = pd.read_csv('../data/code.txt', header=None, names=['code', 'name'], sep='\t')
+df = pd.read_csv('data/code.txt', header=None, names=['code', 'name'], sep='\t')
 corpus = list(df['name'].values)
 bm25 = fastbm25(corpus)
 
-df_test = pd.read_csv('../data/chip_cdn_test.csv', sep='\t')
+df_test = pd.read_csv('data/chip_cdn_test.csv', sep='\t')
 origins, labels, preds = [], [], []
 for _, row in tqdm(df_test.iterrows(), total=len(df_test)):
     if len(row['标准词'].split('##')) > 1:
