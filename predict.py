@@ -30,11 +30,18 @@ def get_embedding(text):
     return embedding
 
 
+# embedding_dict = {}
+# df = pd.read_csv('data/code.txt', header=None, names=['code', 'name'], sep='\t')
+# for name in df['name']:
+#     embedding_dict[name] = get_embedding(name)
+# with open(f'embedding.pickle', 'wb') as f:
+#     pickle.dump(embedding_dict, f)
+
 embedding_dict = {}
-df = pd.read_csv('data/code.txt', header=None, names=['code', 'name'], sep='\t')
-for name in df['name']:
+df = pd.read_csv('data/chip_cdn_test.csv', sep='\t')
+for name in df['原始词']:
     embedding_dict[name] = get_embedding(name)
-with open(f'embedding.pickle', 'wb') as f:
+with open(f'embedding_origin.pickle', 'wb') as f:
     pickle.dump(embedding_dict, f)
 
 # k = 10
@@ -69,4 +76,4 @@ with open(f'embedding.pickle', 'wb') as f:
 # df_result = pd.DataFrame({'原始词': origins, '标准词': labels, '预测结果': preds})
 # df_result['是否正确'] = df_result['标准词'] == df_result['预测结果']
 # df_result.to_excel('预测结果.xlsx', index=False)
-#
+
