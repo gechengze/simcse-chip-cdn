@@ -75,4 +75,5 @@ def predict():
             most_sim_keys = [texts[i] for i in most_sim_idx]
 
 
-get_embedding()
+# get_embedding()
+predict()
