@@ -50,8 +50,6 @@ def predict():
     index.add(embeddings)
     texts = list(embedding_dict.keys())
 
-    pdb.set_trace()
-
     df = pd.read_csv('data/chip_cdn_test.csv', sep='\t')
     model_path = 'roberta-chinese'
     ckpt = 'sup_saved_0.8659.pt'
@@ -73,6 +71,7 @@ def predict():
             sims = sims.flatten().tolist()
             most_sim_idx = most_sim_idx.flatten().tolist()
             most_sim_keys = [texts[i] for i in most_sim_idx]
+            pdb.set_trace()
 
 
 # get_embedding()
