@@ -24,7 +24,7 @@ for text in tqdm(list(df['原始词'].values)):
     attention_mask = token.get('attention_mask').squeeze(1).to(device)
     token_type_ids = token.get('token_type_ids').squeeze(1).to(device)
     embedding = model(input_ids, attention_mask, token_type_ids)
-    embedding_dict[text] = embedding
+    embedding_dict[text] = embedding.cpu()
 
 with open(f'embedding.pickle', 'wb') as f:
     pickle.dump(embedding_dict, f)
