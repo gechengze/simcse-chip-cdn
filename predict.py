@@ -26,7 +26,6 @@ def get_embedding(text):
         attention_mask = token.get('attention_mask').squeeze(1).to(device)
         token_type_ids = token.get('token_type_ids').squeeze(1).to(device)
         embedding = model(input_ids, attention_mask, token_type_ids)
-        embedding = embedding[0, ].cpu().numpy().astype(np.float32)
     return embedding
 
 
