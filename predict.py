@@ -52,7 +52,7 @@ with open('embedding.pickle', 'rb') as f:
     candidate_embedding = pickle.load(f)
 
 
-k = 20
+k = 30
 df = pd.read_csv('data/code.txt', header=None, names=['code', 'name'], sep='\t')
 corpus = list(df['name'].values)
 bm25 = fastbm25(corpus)
