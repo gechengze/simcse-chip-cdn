@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-import pdb
-
 import pandas as pd
 import torch
 import pickle
 import torch.nn.functional as F
+from tqdm import tqdm
 from src.model import SupModel
 from transformers import BertTokenizer
 
@@ -19,7 +18,7 @@ model.eval()
 
 df = pd.read_csv('data/chip_cdn_test.csv', sep='\t')
 embedding_dict = {}
-for text in df['原始词']:
+for text in tqdm(list(df['原始词'].values)):
     token = tokenizer([text], max_length=64, truncation=True, padding='max_length', return_tensors='pt')
     input_ids = token.get('input_ids').squeeze(1).to(device)
     attention_mask = token.get('attention_mask').squeeze(1).to(device)
