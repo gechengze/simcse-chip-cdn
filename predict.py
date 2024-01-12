@@ -16,10 +16,10 @@ model.load_state_dict(torch.load(ckpt))
 tokenizer = BertTokenizer.from_pretrained(model_path)
 model.eval()
 
-df = pd.read_csv('data/chip_cdn_test.csv', sep='\t')
+df_icd = pd.read_csv('../data/code.txt', header=None, names=['code', 'name'], sep='\t')
 embedding_dict = {}
 with torch.no_grad():
-    for text in tqdm(list(df['原始词'].values)):
+    for text in tqdm(list(df_icd['name'].values)):
         token = tokenizer([text], max_length=64, truncation=True, padding='max_length', return_tensors='pt')
         input_ids = token.get('input_ids').squeeze(1).to(device)
         attention_mask = token.get('attention_mask').squeeze(1).to(device)
