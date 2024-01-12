@@ -16,7 +16,7 @@ model.load_state_dict(torch.load(ckpt))
 tokenizer = BertTokenizer.from_pretrained(model_path)
 model.eval()
 
-df_icd = pd.read_csv('../data/code.txt', header=None, names=['code', 'name'], sep='\t')
+df_icd = pd.read_csv('data/code.txt', header=None, names=['code', 'name'], sep='\t')
 embedding_dict = {}
 with torch.no_grad():
     for text in tqdm(list(df_icd['name'].values)):
