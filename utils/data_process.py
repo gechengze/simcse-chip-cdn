@@ -1,31 +1,23 @@
 # -*- coding: utf-8 -*-
+import random
 import re
 import pandas as pd
 import jsonlines
+import json
 
 
-def clean(s):
-    s = re.sub('\(\d{1,3}\.\d{1,5}\+\d{1,3}\.\d{1,5}\+\d{1,3}\.\d{1,5}\+\d{1,3}\.\d{1,5}\)', '', s)
-    s = re.sub('\(\d{1,3}\.\d{1,5}\+\d{1,3}\.\d{1,5}\+\d{1,3}\.\d{1,5}\)', '', s)
-    s = re.sub('\(\d{1,3}\.\d{1,5}\+\d{1,3}\.\d{1,5}\)', '', s)
-    s = re.sub('\(\d{1,3}\.\d{1,5}\)', '', s)
-    s = re.sub('\(\)', '', s)
-    return s.lower()
-
-
-df_icd = pd.read_csv('../data/code.txt', header=None, names=['code', 'name'], sep='\t')
+mapping_data = json.load(open('/Users/gechengze/project/fdu-paper/simcse-chip-cdn/data/mappings.json'))
+all_names = list(mapping_data[0].keys())
 
 train = []
-df_train = pd.read_csv('../data/chip_cdn_train.csv', sep='\t')
+df_train = pd.read_csv('../data/imcs_train.csv', sep='\t')
 for _, row in df_train.iterrows():
-    text = clean(row['原始词'])
-    if len(row['标准词'].split('##')) > 1:
-        continue
+    text = row['原始词']
     origin = text
     entailment = row['标准词']
-    contradiction = df_icd['name'].sample(1).values[0]
+    contradiction = random.choice(all_names)
     while contradiction == origin or contradiction == entailment:
-        contradiction = df_icd['name'].sample(1).values[0]
+        contradiction = random.choice(all_names)
     data = {'origin': origin, 'entailment': entailment, 'contradiction': contradiction}
     train.append(data)
 
@@ -33,17 +25,17 @@ with jsonlines.open('../data/train.txt', 'w') as writer:
     writer.write_all(train)
 
 dev = []
-df_dev = pd.read_csv('../data/chip_cdn_dev.csv', sep='\t')
+df_dev = pd.read_csv('../data/imcs_dev.csv', sep='\t')
 for _, row in df_dev.iterrows():
-    text = clean(row['原始词'])
+    text = row['原始词']
     if len(row['标准词'].split('##')) > 1:
         continue
 
     origin = text
     entailment = row['标准词']
-    contradiction = df_icd['name'].sample(1).values[0]
+    contradiction = random.choice(all_names)
     while contradiction == origin or contradiction == entailment:
-        contradiction = df_icd['name'].sample(1).values[0]
+        contradiction = random.choice(all_names)
     data = {'origin': origin, 'entailment': entailment, 'contradiction': contradiction}
     dev.append(data)
 new_dev = []
